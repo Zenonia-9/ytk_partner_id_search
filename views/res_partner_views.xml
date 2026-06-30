@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record id="view_partner_form_ytk_partner_id" model="ir.ui.view">
+            <field name="name">res.partner.form.ytk.partner.id</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="ytk_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_address_form_ytk_partner_id" model="ir.ui.view">
+            <field name="name">res.partner.address.form.ytk.partner.id</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_address_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="ytk_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_filter_ytk_partner_id" model="ir.ui.view">
+            <field name="name">res.partner.search.ytk.partner.id</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='name']" position="attributes">
+                    <attribute name="filter_domain">['|', '|', '|', '|', '|', ('complete_name', 'ilike', self), ('ref', 'ilike', self), ('email', 'ilike', self), ('vat', 'ilike', self), ('company_registry', 'ilike', self), ('ytk_partner_id', 'ilike', self)]</attribute>
+                </xpath>
+                <xpath expr="//search/field[@name='email']" position="after">
+                    <field name="ytk_partner_id" filter_domain="[('ytk_partner_id', 'ilike', self)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
