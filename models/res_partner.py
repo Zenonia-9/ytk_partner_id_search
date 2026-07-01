@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class ResPartner(models.Model):
@@ -33,7 +33,7 @@ class ResPartner(models.Model):
             return super().name_search(name=name, domain=domain, operator=operator, limit=limit)
 
         partner_by_id = self.search(
-            expression.AND([domain, [("ytk_partner_id", operator, name)]]),
+            Domain.AND([domain, [("ytk_partner_id", operator, name)]]),
             limit=limit,
             order=self._order,
         )
@@ -43,7 +43,7 @@ class ResPartner(models.Model):
         remaining_limit = max(limit - len(partner_by_id), 0) if limit else limit
         fallback_domain = domain
         if partner_by_id:
-            fallback_domain = expression.AND([domain, [("id", "not in", partner_by_id.ids)]])
+            fallback_domain = Domain.AND([domain, [("id", "not in", partner_by_id.ids)]])
 
         return [(partner.id, partner.display_name) for partner in partner_by_id] + super().name_search(
             name=name,
